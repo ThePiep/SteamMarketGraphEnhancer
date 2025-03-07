@@ -1,10 +1,10 @@
 # SteamMarketYearDisplay
 
-This Chromium extension will add the year to steam market transactions.
+This Chromium extension will add the year to steam market transactions. It is a copy of cantryDev's tool (archived) which did not comply to the new manifesto standards.
 
 ## Showcase
 
-<img alt="Showcase" src="https://github.com/cantryDev/SteamMarketYearDisplay/blob/master/Showcase.png?raw=true">
+<img alt="Showcase" src="https://github.com/ThePiep/SteamMarketYearDisplay2/blob/master/Showcase.png?raw=true">
 
 ## Installation
 
