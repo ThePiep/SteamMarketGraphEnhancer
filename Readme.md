@@ -4,7 +4,7 @@ This Chromium extension will add the year to steam market transactions. It is a 
 
 ## Showcase
 
-<img alt="Showcase" src="https://github.com/ThePiep/SteamMarketYearDisplay2/blob/master/Showcase.png?raw=true">
+<img alt="Showcase" src="https://github.com/ThePiep/SteamMarketYearDisplay2/blob/master/Showcase.jpg?raw=true">
 
 ## Installation
 
