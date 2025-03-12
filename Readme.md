@@ -8,7 +8,14 @@ This Chromium extension will add the year to steam market transactions. It is a 
 
 ## Installation
 
-### Chrome
+### Official stores
+
+The extension is now available on both the Firefox Addon Marketplace and the Chrome Web Store:
+
+- [Firefox](https://addons.mozilla.org/nl/firefox/addon/steammarketyeardisplay2/)
+- [Chrome](https://chromewebstore.google.com/detail/steammarketyeardisplay/eodnocmopkljajiehcondpbeloaopooj)
+
+### Chrome (development)
 
 1. Download and unzip the zip file.
 2. Visit chrome://extensions (via omnibox or menu -> Tools -> Extensions).
