@@ -3,7 +3,7 @@ var createZoomOption = function (parentElement, text, days) {
   newElement.setAttribute("class", "zoomopt");
   newElement.setAttribute(
     "onclick",
-    `zoomAmount = ${days}; return pricehistory_zoomDays( g_plotPriceHistory, g_timePriceHistoryEarliest, g_timePriceHistoryLatest, ${days} );`
+    `zoomAmount = ${days}; termDescription = "${text}"; return pricehistory_zoomDays( g_plotPriceHistory, g_timePriceHistoryEarliest, g_timePriceHistoryLatest, ${days} );`
   );
   newElement.setAttribute("href", "javascript:void(0);");
   newElement.textContent = text;

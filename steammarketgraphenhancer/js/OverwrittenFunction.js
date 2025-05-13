@@ -1,5 +1,6 @@
 var startAtZero = false;
 var zoomAmount = 30;
+var termDescription = "Month";
 
 function CreatePriceHistoryGraph( line1, numYAxisTicks, strFormatPrefix, strFormatSuffix )
 {
@@ -98,6 +99,11 @@ function getItemName() {
     return decodeURIComponent(endOfUrl);
 }
 
+function createGraphTitle(itemName, percentChange) {
+    var title = 'Median Sale Prices for ' + itemName + `<div style="float:right; margin-right:45px"> (<a style="color: ${percentChange > 0 ? "#5ba32b":"#D94126" };">${percentChange > 0 ? "+" : ""}${percentChange.toFixed(2)}%</a>, ${termDescription})</div>`;
+    return title;
+}
+
 function pricehistory_zoomDays( plotPriceHistory, timePriceHistoryEarliest, timePriceHistoryLatest, days )
 {
     if ( days == -1 ) {
@@ -109,7 +115,7 @@ function pricehistory_zoomDays( plotPriceHistory, timePriceHistoryEarliest, time
 
     var percentChange = getPercentChange(plotPriceHistory, timeSelected, timePriceHistoryLatest);
     var itemName = getItemName();
-    plotPriceHistory.title.text = 'Median Sale Prices for ' + itemName + `<a style="color: ${percentChange > 0 ? "#5ba32b":"#D94126" };"> (${percentChange > 0 ? "+" : ""}${percentChange.toFixed(2)}%) </a>`;
+    plotPriceHistory.title.text = createGraphTitle(itemName, percentChange);
 
 	plotPriceHistory.axes.xaxis.ticks = [];
 	plotPriceHistory.resetZoom();
@@ -139,7 +145,7 @@ function pricehistory_zoomLifetime( plotPriceHistory, timePriceHistoryEarliest, 
 {
     var percentChange = getPercentChange(plotPriceHistory, timePriceHistoryEarliest, timePriceHistoryLatest);
     var itemName = getItemName();
-    plotPriceHistory.title.text = 'Median Sale Prices for ' + itemName + `<a style="color: ${percentChange > 0 ? "#5ba32b":"#D94126" };"> (${percentChange > 0 ? "+" : ""}${percentChange.toFixed(2)}%) </a>`;
+    plotPriceHistory.title.text = createGraphTitle(itemName, percentChange);
 
 	plotPriceHistory.axes.xaxis.ticks = [];
 	plotPriceHistory.resetZoom();
