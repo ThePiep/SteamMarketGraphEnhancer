@@ -1,26 +1,26 @@
 {
-  "manifest_version": 3,
-  "name": "SteamMarketYearDisplay",
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "{99e7edd9-7e7d-4e3c-bb2e-b4f9810d3518}"
-    }
-  },
-  "description": "This extension will display the year of Market transactions",
-  "version": "1.1",
-  "host_permissions": ["https://steamcommunity.com/market/listings/**"],
-  "optional_host_permissions": ["*://*/*"],
-  "content_scripts": [
-    {
-      "matches": ["https://steamcommunity.com/market/listings/**"],
-      "js": ["js/SteamMarketListingsInjector.js"],
-      "run_at": "document_start"
-    }
-  ],
-  "web_accessible_resources": [
-    {
-      "resources": ["js/OverwrittenFunction.js"],
-      "matches": ["*://*/*"]
-    }
-  ]
+    "manifest_version": 3,
+    "name": "SteamMarketGraphEnhancer",
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "{de2b4f60-cbf0-429c-a0d9-99647f9d379e}"
+        }
+    },
+    "description": "This extension enhances the sales graph in the Steam Market by adding extra zoom options, year display, and an option to start the y-axis at zero.",
+    "version": "1.0",
+    "host_permissions": ["https://steamcommunity.com/market/listings/**"],
+    "optional_host_permissions": ["*://*/*"],
+    "content_scripts": [
+        {
+            "matches": ["https://steamcommunity.com/market/listings/**"],
+            "js": ["js/SteamMarketListingsInjector.js"],
+            "run_at": "document_start"
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": ["js/OverwrittenFunction.js"],
+            "matches": ["*://*/*"]
+        }
+    ]
 }

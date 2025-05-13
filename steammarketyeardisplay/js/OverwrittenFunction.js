@@ -1,7 +1,11 @@
+var startAtZero = false;
+var zoomAmount = 30;
+
 function CreatePriceHistoryGraph( line1, numYAxisTicks, strFormatPrefix, strFormatSuffix )
 {
+    var itemName = getItemName();
     var plot = $J.jqplot('pricehistory', [line1], {
-        title:{text: 'Median Sale Prices', textAlign: 'left' },
+        title:{text: 'Median Sale Prices for ' + itemName, textAlign: 'left' },
         gridPadding:{left: 45, right:45, top:25},
         axesDefaults:{ showTickMarks:false },
         axes:{
@@ -43,4 +47,144 @@ function CreatePriceHistoryGraph( line1, numYAxisTicks, strFormatPrefix, strForm
 
     plot.defaultNumberTicks = numYAxisTicks;
     return plot;
+}
+
+function GetYAXisForPriceHistoryGraph( plotPriceHistory, timeMin, timeMax )
+{
+	var min = startAtZero ? 0 : -1;
+	var max = 0.06;
+	for ( var index in plotPriceHistory.series[0].data )
+	{
+		var rgData = plotPriceHistory.series[0].data[index];
+		if ( rgData[0] >= timeMin.getTime() && rgData[0] <= timeMax.getTime() )
+		{
+			if ( rgData[1] > max )
+			{
+				max = rgData[1];
+			}
+
+			if ( (rgData[1] < min || min == -1))
+			{
+				min = rgData[1];
+			}
+		}
+	}
+
+	return $J.jqplot.LinearTickGenerator( min, max, null, plotPriceHistory.defaultNumberTicks, false, false );
+}
+
+function getFirstAndLastValue( plotPriceHistory, timeMin, timeMax ) {
+    var filtered = plotPriceHistory.series[0].data.filter((data) => {
+        return data[0] >= timeMin.getTime() && data[0] <= timeMax.getTime();
+    })
+    var first = filtered[0][1];
+    return [filtered[0][1], filtered[filtered.length - 1][1]];
+}
+
+function getPercentChange( plotPriceHistory, timeMin, timeMax ) {
+    var filtered = plotPriceHistory.series[0].data.filter((data) => {
+        return data[0] >= timeMin.getTime() && data[0] <= timeMax.getTime();
+    })
+    var first = filtered[0][1];
+    var last = filtered[filtered.length - 1][1];
+    var percentChange = ((last - first) / (first)) * 100;
+    return percentChange;
+}
+
+function getItemName() {
+    var url = window.location.href;
+    var urlParts = url.split('/');
+    var endOfUrl = urlParts[urlParts.length - 1];
+    return decodeURIComponent(endOfUrl);
+}
+
+function pricehistory_zoomDays( plotPriceHistory, timePriceHistoryEarliest, timePriceHistoryLatest, days )
+{
+    if ( days == -1 ) {
+        // Lifetime
+        return pricehistory_zoomLifetime( plotPriceHistory, timePriceHistoryEarliest, timePriceHistoryLatest );
+    }
+
+	var timeSelected = new Date( timePriceHistoryLatest.getTime() - ( days * 24 * 60 * 60 * 1000 ) );
+
+    var percentChange = getPercentChange(plotPriceHistory, timeSelected, timePriceHistoryLatest);
+    var itemName = getItemName();
+    plotPriceHistory.title.text = 'Median Sale Prices for ' + itemName + `<a style="color: ${percentChange > 0 ? "#5ba32b":"#D94126" };"> (${percentChange > 0 ? "+" : ""}${percentChange.toFixed(2)}%) </a>`;
+
+	plotPriceHistory.axes.xaxis.ticks = [];
+	plotPriceHistory.resetZoom();
+	plotPriceHistory.axes.xaxis.reset();
+	plotPriceHistory.axes.y2axis.reset();
+
+	var ticks = ( days == 7 ) ? 7 : 6;
+	plotPriceHistory.axes.xaxis.tickInterval = days / ticks + " days";
+	plotPriceHistory.axes.xaxis.min = timeSelected;
+	plotPriceHistory.axes.xaxis.max = timePriceHistoryLatest;
+
+	var rgYAxis = GetYAXisForPriceHistoryGraph( plotPriceHistory, timeSelected, timePriceHistoryLatest );
+	plotPriceHistory.axes.yaxis.min = rgYAxis[0];
+	plotPriceHistory.axes.yaxis.max = rgYAxis[1];
+	plotPriceHistory.axes.yaxis.numberTicks = rgYAxis[2];
+	plotPriceHistory.axes.yaxis.tickInterval = rgYAxis[4];
+
+	plotPriceHistory.replot();
+
+	$J('#pricehistory .jqplot-yaxis').children().first().remove();
+	$J('#pricehistory .jqplot-yaxis').children().last().remove();
+
+	return false;
+}
+
+function pricehistory_zoomLifetime( plotPriceHistory, timePriceHistoryEarliest, timePriceHistoryLatest )
+{
+    var percentChange = getPercentChange(plotPriceHistory, timePriceHistoryEarliest, timePriceHistoryLatest);
+    var itemName = getItemName();
+    plotPriceHistory.title.text = 'Median Sale Prices for ' + itemName + `<a style="color: ${percentChange > 0 ? "#5ba32b":"#D94126" };"> (${percentChange > 0 ? "+" : ""}${percentChange.toFixed(2)}%) </a>`;
+
+	plotPriceHistory.axes.xaxis.ticks = [];
+	plotPriceHistory.resetZoom();
+	plotPriceHistory.axes.xaxis.reset();
+	plotPriceHistory.axes.y2axis.reset();
+
+	var days = (timePriceHistoryLatest.getTime() - timePriceHistoryEarliest.getTime()) / ( 24 * 60 * 60 * 1000 );
+	if ( days / 7 < 1 )
+	{
+		var difference = timePriceHistoryLatest.getTime() - timePriceHistoryEarliest.getTime();
+		plotPriceHistory.axes.xaxis.ticks = [timePriceHistoryEarliest, new Date( timePriceHistoryEarliest.getTime() + difference * 0.25  ), new Date( timePriceHistoryEarliest.getTime() + difference * 0.5  ), new Date( timePriceHistoryEarliest.getTime() + difference * 0.75  ), timePriceHistoryLatest];
+	}
+	else
+	{
+		plotPriceHistory.axes.xaxis.tickInterval = (days / 7) + " days";
+	}
+
+	plotPriceHistory.axes.xaxis.min = timePriceHistoryEarliest;
+	plotPriceHistory.axes.xaxis.max = timePriceHistoryLatest;
+
+	var rgYAxis = GetYAXisForPriceHistoryGraph( plotPriceHistory, timePriceHistoryEarliest, timePriceHistoryLatest );
+	plotPriceHistory.axes.yaxis.min = rgYAxis[0];
+	plotPriceHistory.axes.yaxis.max = rgYAxis[1];
+	plotPriceHistory.axes.yaxis.numberTicks = rgYAxis[2];
+	plotPriceHistory.axes.yaxis.tickInterval = rgYAxis[4];
+
+	plotPriceHistory.replot();
+
+	$J('#pricehistory .jqplot-yaxis').children().first().remove();
+	$J('#pricehistory .jqplot-yaxis').children().last().remove();
+
+	return false;
+}
+
+function pricehistory_zoomMonthOrLifetime( plotPriceHistory, timePriceHistoryEarliest, timePriceHistoryLatest )
+{
+	var timeMonthAgo = new Date( timePriceHistoryLatest.getTime() - ( 30 * 24 * 60 * 60 * 1000 ) );
+	plotPriceHistory.resetZoom();
+
+	var days = (timePriceHistoryLatest.getTime() - timePriceHistoryEarliest.getTime()) / ( 24 * 60 * 60 * 1000 );
+    if (timePriceHistoryEarliest > timeMonthAgo) {
+        pricehistory_zoomLifetime( plotPriceHistory, timePriceHistoryEarliest, timePriceHistoryLatest );
+    } else {
+        pricehistory_zoomDays( plotPriceHistory, timePriceHistoryEarliest, timePriceHistoryLatest, 30 );
+    }
+
+	return false;
 }
