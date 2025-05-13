@@ -1,10 +1,10 @@
 # SteamMarketYearDisplay
 
-This Chromium extension will add the year to steam market transactions. It is a copy of cantryDev's tool (archived) which did not comply to the new manifesto standards.
+This Firefox/Chromium extension will enhance the Steam Market sales graph by adding extra zoom options, market trends, years to the dates, and an option to start the y-axis at zero. The core of the extension is based upon cantryDev's year display tool (archived).
 
 ## Showcase
 
-<img alt="Showcase" src="https://github.com/ThePiep/SteamMarketYearDisplay2/blob/master/Showcase.jpg?raw=true">
+<img alt="Showcase" src="https://github.com/ThePiep/SteamMarketGraphEnhancer/blob/master/Showcase.jpg?raw=true">
 
 ## Installation
 
@@ -12,8 +12,8 @@ This Chromium extension will add the year to steam market transactions. It is a 
 
 The extension is now available on both the Firefox Addon Marketplace and the Chrome Web Store:
 
-- [Firefox](https://addons.mozilla.org/nl/firefox/addon/steammarketyeardisplay2/)
-- [Chrome](https://chromewebstore.google.com/detail/steammarketyeardisplay/eodnocmopkljajiehcondpbeloaopooj)
+-   [~~Firefox~~](https://addons.mozilla.org/nl/firefox/addon/steammarketgraphenhancer/)
+-   [~~Chrome~~](https://chromewebstore.google.com/detail/steammarketgraphenhancer/)
 
 ### Chrome (development)
 
