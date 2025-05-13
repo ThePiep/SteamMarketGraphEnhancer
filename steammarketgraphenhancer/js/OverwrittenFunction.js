@@ -93,7 +93,7 @@ function getPercentChange( plotPriceHistory, timeMin, timeMax ) {
 
 function getItemName() {
     var url = window.location.href;
-    var urlParts = url.split('/');
+    var urlParts = url.split('?')[0].split('/');
     var endOfUrl = urlParts[urlParts.length - 1];
     return decodeURIComponent(endOfUrl);
 }
