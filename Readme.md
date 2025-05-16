@@ -12,8 +12,8 @@ This Firefox/Chromium extension will enhance the Steam Market sales graph by add
 
 The extension is now available on both the Firefox Addon Marketplace and the Chrome Web Store:
 
--   [~~Firefox~~](https://addons.mozilla.org/nl/firefox/addon/steammarketgraphenhancer/)
--   [~~Chrome~~](https://chromewebstore.google.com/detail/steammarketgraphenhancer/njdbafjifjmbjdddamcbohinfpcdjkoe)
+-   [Firefox](https://addons.mozilla.org/nl/firefox/addon/steammarketgraphenhancer/)
+-   [Chrome](https://chromewebstore.google.com/detail/steammarketgraphenhancer/njdbafjifjmbjdddamcbohinfpcdjkoe)
 
 ### Chrome (development)
 
